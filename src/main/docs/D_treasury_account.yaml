@@ -1,0 +1,25 @@
+openapi: 3.0.3
+info:
+  title: D - Treasury Accounts
+  version: 1.0.0
+paths:
+  /accounts:
+    post:
+      summary: Create a financial account (bank, mobile money, cash)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, holderName, balance]
+              properties:
+                type: { type: string, enum: [bank, mobile_money, cash] }
+                holderName: { type: string }
+                balance: { type: number }
+                bankName: { type: string }
+                accountNumber: { type: string }
+                phoneNumber: { type: string }
+      responses:
+        "201":
+          description: Account created

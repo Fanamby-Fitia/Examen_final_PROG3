@@ -1,0 +1,24 @@
+openapi: 3.0.3
+info:
+  title: C - Contributions and Payments
+  version: 1.0.0
+paths:
+  /contributions:
+    post:
+      summary: Record a member contribution
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [memberId, amount, date, type, paymentMode]
+              properties:
+                memberId: { type: string }
+                amount: { type: number }
+                date: { type: string, format: date }
+                type: { type: string, enum: [monthly, annual, special] }
+                paymentMode: { type: string, enum: [cash, bank, mobile_money] }
+      responses:
+        "201":
+          description: Contribution recorded

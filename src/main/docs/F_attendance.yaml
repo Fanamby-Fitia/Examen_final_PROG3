@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: F - Attendance
+  version: 1.0.0
+paths:
+  /attendance:
+    post:
+      summary: Record attendance for an activity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [activityId, memberId, present, excused]
+              properties:
+                activityId: { type: string }
+                memberId: { type: string }
+                present: { type: boolean }
+                excused: { type: boolean }
+      responses:
+        "201":
+          description: Attendance recorded

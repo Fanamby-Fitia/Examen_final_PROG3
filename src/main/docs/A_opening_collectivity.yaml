@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: A - Opening Collectivity
+  version: 1.0.0
+paths:
+  /collectivities:
+    post:
+      summary: Open a new agricultural collectivity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, city, specialty, members, authorization]
+              properties:
+                name: { type: string }
+                city: { type: string }
+                specialty: { type: string }
+                creationDate: { type: string, format: date }
+                members:
+                  type: array
+                  minItems: 10
+                  items:
+                    type: string
+                authorization: { type: boolean }
+      responses:
+        "201":
+          description: Collectivity created

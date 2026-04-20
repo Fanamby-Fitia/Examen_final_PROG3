@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: E - Activities
+  version: 1.0.0
+paths:
+  /activities:
+    post:
+      summary: Create an activity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, type, date, mandatory]
+              properties:
+                name: { type: string }
+                type: { type: string, enum: [general_assembly, training, exceptional, federation_event] }
+                date: { type: string, format: date }
+                mandatory: { type: boolean }
+      responses:
+        "201":
+          description: Activity created

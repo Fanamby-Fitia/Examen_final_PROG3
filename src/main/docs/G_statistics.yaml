@@ -1,0 +1,22 @@
+openapi: 3.0.3
+info:
+  title: G - Statistics
+  version: 1.0.0
+paths:
+  /statistics/collectivity/{id}:
+    get:
+      summary: Get collectivity statistics
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: startDate
+          in: query
+          schema: { type: string, format: date }
+        - name: endDate
+          in: query
+          schema: { type: string, format: date }
+      responses:
+        "200":
+          description: Statistics returned
