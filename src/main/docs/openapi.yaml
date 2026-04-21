@@ -1,0 +1,217 @@
+openapi: 3.0.0
+info:
+  title: Fédération des Collectivités Agricoles API
+  version: 1.0.0
+  description: API de gestion des collectivités agricoles à Madagascar
+
+servers:
+  - url: http://localhost:8080/api
+
+paths:
+
+  /collectivites:
+    post:
+      summary: Créer une collectivité agricole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [nom, ville, specialite, dateCreation]
+              properties:
+                nom:
+                  type: string
+                ville:
+                  type: string
+                specialite:
+                  type: string
+                dateCreation:
+                  type: string
+                  format: date
+      responses:
+        "201":
+          description: Collectivité créée
+
+  /collectivites/{id}:
+    get:
+      summary: Obtenir une collectivité
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Détails collectivité
+
+
+  /collectivites/{id}/membres:
+    post:
+      summary: Ajouter un membre avec conditions de parrainage avancées
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - nom
+                - prenom
+                - dateNaissance
+                - genre
+                - adresse
+                - metier
+                - telephone
+                - email
+                - parrains
+                - relationsParrains
+                - fraisAdhesion
+                - cotisationAnnuelle
+              properties:
+                nom:
+                  type: string
+                prenom:
+                  type: string
+                dateNaissance:
+                  type: string
+                  format: date
+                genre:
+                  type: string
+                  enum: [F, M]
+                adresse:
+                  type: string
+                metier:
+                  type: string
+                telephone:
+                  type: string
+                email:
+                  type: string
+                parrains:
+                  type: array
+                  items:
+                    type: integer
+                relationsParrains:
+                  type: array
+                  items:
+                    type: string
+                fraisAdhesion:
+                  type: number
+                cotisationAnnuelle:
+                  type: number
+      responses:
+        "201":
+          description: Membre ajouté ou refusé
+
+
+  /cotisations:
+    post:
+      summary: Enregistrer une cotisation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [membreId, montant, type, modePaiement, date]
+              properties:
+                membreId:
+                  type: integer
+                montant:
+                  type: number
+                type:
+                  type: string
+                  enum: [mensuelle, annuelle, ponctuelle]
+                modePaiement:
+                  type: string
+                  enum: [espece, virement, mobile_money]
+                date:
+                  type: string
+                  format: date
+      responses:
+        "200":
+          description: Cotisation enregistrée
+
+
+  /comptes:
+    get:
+      summary: Liste des comptes (caisse, bancaire, mobile money)
+      responses:
+        "200":
+          description: Liste des comptes
+
+
+  /activites:
+    post:
+      summary: Créer une activité
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [type, date, obligatoire, collectiviteId]
+              properties:
+                type:
+                  type: string
+                date:
+                  type: string
+                  format: date
+                obligatoire:
+                  type: boolean
+                collectiviteId:
+                  type: integer
+      responses:
+        "201":
+          description: Activité créée
+
+  /presences:
+    post:
+      summary: Enregistrer présence d’un membre
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [membreId, activiteId, statut]
+              properties:
+                membreId:
+                  type: integer
+                activiteId:
+                  type: integer
+                statut:
+                  type: string
+                  enum: [present, absent, excuse]
+      responses:
+        "200":
+          description: Présence enregistrée
+
+
+  /statistiques/collectivite/{id}:
+    get:
+      summary: Statistiques d’une collectivité
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Taux d’assiduité et finances
+
+
+  /statistiques/federation:
+    get:
+      summary: Rapport global de la fédération
+      responses:
+        "200":
+          description: Rapport global (assiduité, cotisations, nouveaux membres)
