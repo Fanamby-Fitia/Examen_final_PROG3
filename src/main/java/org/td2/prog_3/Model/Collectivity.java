@@ -1,19 +1,27 @@
 package org.td2.prog_3.Model;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 public class Collectivity {
 
     private Long id;
-    private String name;
-    private String city;
-    private String specialty;
-    private String creationDate;
+    private String numero;
+    private String nom;
+    private String ville;
+    private String specialite;
+    private LocalDate dateCreation;
+    private Boolean autorisationFormelle;
+    private String statut;
+    private List<Member> membres;
 
-    public Collectivity(Long id, String name, String city, String specialty, String creationDate) {
-        this.id = id;
-        this.name = name;
-        this.city = city;
-        this.specialty = specialty;
-        this.creationDate = creationDate;
+    public Collectivity() {
+        this.membres = new ArrayList<>();
+        this.statut = "EN_ATTENTE";
     }
 
     public Long getId() {
@@ -24,35 +32,98 @@ public class Collectivity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
-    public String getCity() {
-        return city;
+    public String getNom() {
+        return nom;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
-    public String getSpecialty() {
-        return specialty;
+    public String getVille() {
+        return ville;
     }
 
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
+    public void setVille(String ville) {
+        this.ville = ville;
     }
 
-    public String getCreationDate() {
-        return creationDate;
+    public String getSpecialite() {
+        return specialite;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
+    public void setSpecialite(String specialite) {
+        this.specialite = specialite;
+    }
+
+    public LocalDate getDateCreation() {
+        return dateCreation;
+    }
+
+    public void setDateCreation(LocalDate dateCreation) {
+        this.dateCreation = dateCreation;
+    }
+
+    public Boolean getAutorisationFormelle() {
+        return autorisationFormelle;
+    }
+
+    public void setAutorisationFormelle(Boolean autorisationFormelle) {
+        this.autorisationFormelle = autorisationFormelle;
+    }
+
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    public List<Member> getMembres() {
+        return membres;
+    }
+
+    public void setMembres(List<Member> membres) {
+        this.membres = membres;
+    }
+
+    public boolean hasUniqueIdentifiers() {
+        return this.numero != null && this.nom != null;
+    }
+
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", this.id);
+        map.put("numero", this.numero);
+        map.put("nom", this.nom);
+        map.put("ville", this.ville);
+        map.put("specialite", this.specialite);
+        map.put("dateCreation", this.dateCreation != null ? this.dateCreation.toString() : null);
+        map.put("statut", this.statut);
+        map.put("nombreMembres", this.membres != null ? this.membres.size() : 0);
+        return map;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Collectivity that = (Collectivity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
+
